@@ -1,0 +1,27 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: gloo-mesh-exterprise
+spec:
+  interval: 30m
+  url: https://storage.googleapis.com/gloo-mesh-enterprise/gloo-mesh-enterprise
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gloo-mesh-enterprise
+spec:
+  releaseName: gloo-mesh-enterprise
+  chart:
+    spec:
+      chart: gloo-mesh-enterprise
+      sourceRef:
+        kind: HelmRepository
+        name: gloo-mesh-enterprise
+        namespace: flux-system
+      version: "3.23.0"
+  interval: 1h0m0s
+  install:
+    remediation:
+      retries: 3
+  values:
